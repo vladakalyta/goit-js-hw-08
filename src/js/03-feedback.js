@@ -10,7 +10,8 @@ refs.form.addEventListener('input', throttle(onInputChange, 500))
 refs.form.addEventListener('submit', onFormSubmit)
 
 const DATA_KEY = 'feedback-form-state';
-const formData = {} || getItemKey(DATA_KEY);
+const formData = JSON.parse(localStorage.getItem(DATA_KEY)) || {};
+populateText()
 
 function onInputChange(event) {
   formData[event.target.name] = event.target.value;
@@ -28,15 +29,15 @@ function onFormSubmit(event) {
   localStorage.removeItem(DATA_KEY);
 }
 
-populateText()
+
 function populateText() {
   const savedData = JSON.parse(localStorage.getItem(DATA_KEY));
-    if (savedData['message']) {
-      refs.textArea.value = savedData['message'];
+  if (savedData) {
+    if (savedData.message) {
+      refs.textArea.value = savedData.message;
     }
-    if (savedData['email']) {
-      refs.emailInput.value = savedData['email']
-    };
+    if (savedData.email) {
+      refs.emailInput.value = savedData.email
+    }
   }
-
-
+}
